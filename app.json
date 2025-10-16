@@ -16,9 +16,7 @@
       "package": "com.yourcompany.smartnursingfeedback"
     },
     "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/favicon.png"
+      "bundler": "metro"
     }
   }
 }
