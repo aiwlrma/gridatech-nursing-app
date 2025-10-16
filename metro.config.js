@@ -8,6 +8,12 @@ const { getDefaultConfig } = require('expo/metro-config');
  */
 const config = getDefaultConfig(__dirname);
 
+// Static rendering 비활성화
+config.server = {
+  ...config.server,
+  experimentalImportSupport: false,
+};
+
 // Add support for additional platforms
 config.resolver.platforms = ['ios', 'android', 'native', 'web'];
 

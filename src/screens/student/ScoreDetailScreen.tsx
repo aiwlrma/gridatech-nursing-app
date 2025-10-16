@@ -9,6 +9,7 @@ import {
   Dimensions,
   StatusBar,
   BackHandler,
+  Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { colors, typography, spacing } from '../../theme';
@@ -16,7 +17,15 @@ import { ScoreSummaryCard } from '../../components/cards/ScoreSummaryCard';
 import ProgressCircleCard from '../../components/cards/ProgressCircleCard';
 import CategoryScoreCard from '../../components/cards/CategoryScoreCard';
 import RankCard from '../../components/cards/RankCard';
-import { LineChart } from 'react-native-chart-kit';
+// 웹에서는 react-native-chart-kit을 import하지 않음
+let LineChart: any = null;
+if (Platform.OS !== 'web') {
+  try {
+    LineChart = require('react-native-chart-kit').LineChart;
+  } catch (error) {
+    console.warn('react-native-chart-kit not available:', error);
+  }
+}
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -155,20 +164,46 @@ const ScoreDetailScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.chartContainer}>
-            <LineChart
-              data={monthlyScores}
-              width={screenWidth - 100}
-              height={220}
-              chartConfig={chartConfig}
-              bezier
-              withInnerLines={true}
-              withOuterLines={true}
-              withVerticalLines={true}
-              withHorizontalLines={true}
-              withVerticalLabels={true}
-              withHorizontalLabels={true}
-              style={styles.chart}
-            />
+{Platform.OS === 'web' ? (
+              <View style={styles.webChartPlaceholder}>
+                <Text style={styles.webChartText}>📊 차트 데이터</Text>
+                <Text style={styles.webChartSubtext}>월별 점수 추이</Text>
+                <View style={styles.webChartData}>
+                  {monthlyScores.datasets[0].data.map((score, index) => (
+                    <View key={index} style={styles.webChartBar}>
+                      <View 
+                        style={[
+                          styles.webChartBarFill, 
+                          { height: `${(score / 100) * 60}px` }
+                        ]} 
+                      />
+                      <Text style={styles.webChartBarLabel}>
+                        {monthlyScores.labels[index]}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            ) : LineChart ? (
+              <LineChart
+                data={monthlyScores}
+                width={screenWidth - 100}
+                height={220}
+                chartConfig={chartConfig}
+                bezier
+                withInnerLines={true}
+                withOuterLines={true}
+                withVerticalLines={true}
+                withHorizontalLines={true}
+                withVerticalLabels={true}
+                withHorizontalLabels={true}
+                style={styles.chart}
+              />
+            ) : (
+              <View style={styles.chartError}>
+                <Text style={styles.chartErrorText}>차트를 불러올 수 없습니다</Text>
+              </View>
+            )}
             {/* Chart Insights */}
             <View style={styles.chartInsights}>
               <View style={styles.insightItem}>
@@ -406,6 +441,62 @@ const styles = StyleSheet.create({
   },
   bottomSpacing: {
     height: 40,
+  },
+  // 웹 차트 스타일
+  webChartPlaceholder: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 20,
+    alignItems: 'center',
+    minHeight: 220,
+    justifyContent: 'center',
+  },
+  webChartText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#1A1F2E',
+    marginBottom: 8,
+  },
+  webChartSubtext: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginBottom: 20,
+  },
+  webChartData: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-around',
+    width: '100%',
+    height: 120,
+  },
+  webChartBar: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  webChartBarFill: {
+    width: 20,
+    backgroundColor: '#1884FF',
+    borderRadius: 10,
+    marginBottom: 8,
+    minHeight: 4,
+  },
+  webChartBarLabel: {
+    fontSize: 12,
+    color: '#6B7280',
+    fontWeight: '500',
+  },
+  chartError: {
+    backgroundColor: '#FEF2F2',
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+    minHeight: 220,
+    justifyContent: 'center',
+  },
+  chartErrorText: {
+    fontSize: 16,
+    color: '#EF4444',
+    fontWeight: '600',
   },
 });
 

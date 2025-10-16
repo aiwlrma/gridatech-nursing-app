@@ -1,13 +1,24 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
-    "lib": ["es2017", "dom", "dom.iterable"],
+    "lib": [
+      "es2017",
+      "dom",
+      "dom.iterable"
+    ],
     "allowSyntheticDefaultImports": true,
-    "jsx": "react-native",
+    "jsx": "preserve",
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "strict": true
-  }
+    "strict": true,
+    "incremental": true,
+    "module": "esnext"
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
