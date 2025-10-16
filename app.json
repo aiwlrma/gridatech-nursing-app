@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "SmartNursingFeedbackNew",
+    "slug": "smart-nursing-feedback",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourcompany.smartnursingfeedback"
+    },
+    "android": {
+      "package": "com.yourcompany.smartnursingfeedback"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
