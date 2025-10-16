@@ -20,6 +20,9 @@ const nextConfig = {
       'expo-status-bar': false,
       'react-native-gesture-handler': false,
       '@expo/vector-icons': false,
+      'expo-linear-gradient': false,
+      'react-native-reanimated': false,
+      'react-native-safe-area-context': false,
     };
 
     // SVG 처리
@@ -47,6 +50,14 @@ const nextConfig = {
       net: false,
       tls: false,
     };
+
+    // 문제가 되는 모듈들을 무시
+    config.externals = config.externals || [];
+    config.externals.push({
+      'expo-linear-gradient': 'commonjs expo-linear-gradient',
+      'react-native-reanimated': 'commonjs react-native-reanimated',
+      'react-native-safe-area-context': 'commonjs react-native-safe-area-context',
+    });
 
     return config;
   },

@@ -1,6 +1,5 @@
 import React from 'react';
 import { AppProps } from 'next/app';
-import '../src/styles/webStyles';
 
 // 전역 스타일
 const globalStyles = `
