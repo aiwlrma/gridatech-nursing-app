@@ -17,12 +17,13 @@ const nextConfig = {
       ...config.resolve.alias,
       'react-native$': 'react-native-web',
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
-      'expo-status-bar': false,
-      'react-native-gesture-handler': false,
       '@expo/vector-icons': false,
       'expo-linear-gradient': false,
       'react-native-reanimated': false,
       'react-native-safe-area-context': false,
+      'expo-status-bar': false,
+      'react-native-gesture-handler': false,
+      'react-native-svg': false,
     };
 
     // SVG 처리
@@ -51,12 +52,16 @@ const nextConfig = {
       tls: false,
     };
 
-    // 문제가 되는 모듈들을 무시
+    // 문제가 되는 모듈들을 externals로 처리
     config.externals = config.externals || [];
     config.externals.push({
+      '@expo/vector-icons': 'commonjs @expo/vector-icons',
       'expo-linear-gradient': 'commonjs expo-linear-gradient',
       'react-native-reanimated': 'commonjs react-native-reanimated',
       'react-native-safe-area-context': 'commonjs react-native-safe-area-context',
+      'expo-status-bar': 'commonjs expo-status-bar',
+      'react-native-gesture-handler': 'commonjs react-native-gesture-handler',
+      'react-native-svg': 'commonjs react-native-svg',
     });
 
     return config;

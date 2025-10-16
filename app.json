@@ -15,8 +15,8 @@
     "android": {
       "package": "com.yourcompany.smartnursingfeedback"
     },
-    "web": {
-      "bundler": "metro"
-    }
+  "web": {
+    "bundler": "metro"
+  }
   }
 }
